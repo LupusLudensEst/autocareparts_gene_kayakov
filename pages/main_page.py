@@ -14,6 +14,9 @@ CONTACT_US = (By.XPATH, "//a[@href='/pages/contact-us']")
 PHONE_IS_HERE = (By.XPATH, "//div[@class='rte']")
 ADDRESS_IS_HERE = (By.XPATH, "//div[@class='rte']")
 EMAIL_IS_HERE = (By.XPATH, "//div[@class='rte']")
+SEARCH_FIELD = (By.NAME, "q")
+SEARCHED_IS_HERE = (By.XPATH, "//h1[@class='h2 text-center']")
+SEARCH_BTN = (By.XPATH, "(//span[@class='icon icon-search'])[1]")
 
 class MainPage(Page):
 
@@ -49,7 +52,7 @@ class MainPage(Page):
         actions.click(on_element=target)
         actions.perform()
         sleep(1.5)
-        expected_text = '310.817.0370'
+        expected_text = phone
         actual_text = wait.until(EC.visibility_of_element_located((PHONE_IS_HERE))).text
         print(f'Actual phone: {actual_text}')
         assert expected_text in actual_text
@@ -58,7 +61,7 @@ class MainPage(Page):
     # End of the above code
 
     # 4 Verify address "20350 NE 16TH PL" is here
-    def vrf_addrss_here(self, phone):
+    def vrf_addrss_here(self, addrss):
         wait = WebDriverWait(self.driver, 10)
         target = wait.until(EC.element_to_be_clickable(CONTACT_US))
         actions = ActionChains(self.driver)
@@ -67,7 +70,7 @@ class MainPage(Page):
         actions.click(on_element=target)
         actions.perform()
         sleep(1.5)
-        expected_text = '20350 NE 16TH PL'
+        expected_text = addrss
         actual_text = wait.until(EC.visibility_of_element_located((ADDRESS_IS_HERE))).text
         print(f'Actual phone: {actual_text}')
         assert expected_text in actual_text
@@ -76,7 +79,7 @@ class MainPage(Page):
     # End of the above code
 
     # 5 Verify email "sales@autocareparts.com" is here
-    def vrf_eml_here(self, phone):
+    def vrf_eml_here(self, eml):
         wait = WebDriverWait(self.driver, 10)
         target = wait.until(EC.element_to_be_clickable(CONTACT_US))
         actions = ActionChains(self.driver)
@@ -85,13 +88,36 @@ class MainPage(Page):
         actions.click(on_element=target)
         actions.perform()
         sleep(1.5)
-        expected_text = 'sales@autocareparts.com'
+        expected_text = eml
         actual_text = wait.until(EC.visibility_of_element_located((EMAIL_IS_HERE))).text
         print(f'Actual phone: {actual_text}')
         assert expected_text in actual_text
         print(f'Expected "{expected_text}", and got: "{actual_text}" ')
 
     # End of the above code
+
+    # 6 Verify searched word  is here
+    def vrf_srchwrd_here(self,txt):
+        wait = WebDriverWait(self.driver, 10)
+        # Send search word to the search field
+        searhed_word = txt
+        e = self.driver.find_element(*SEARCH_FIELD)
+        e.clear()
+        e.send_keys(searhed_word)
+        sleep(4)
+        # Click on search button
+        self.driver.find_element(*SEARCH_BTN).click()
+        # Verify searched word is here
+        actual_text = (self.driver.find_element(*SEARCHED_IS_HERE).text).lower()
+        print(actual_text)
+        assert searhed_word in actual_text
+        if searhed_word in actual_text:
+            print(f'Text is here: {searhed_word}')
+        else:
+            print(f'Actual text is here: {actual_text} ')
+
+    # End of the above code
+
 
 
 
