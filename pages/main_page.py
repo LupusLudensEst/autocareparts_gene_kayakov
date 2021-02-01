@@ -21,6 +21,15 @@ SHOP_BY_BRAND = (By.XPATH, "(//a[@class='site-nav--link'])[2]")
 NUMBERS = (By.XPATH, "(//a[@class='site-nav--link'])[3]")
 ONE_SHOT = (By.XPATH, "(//a[@class='site-nav--link'])[4]")
 ONESHOT_TEXT_HERE = (By.XPATH, "//h1[@class='section-header--title h1']")
+CREATE_AN_ACCOUNT = (By.XPATH, "(//a[@id='customer_register_link'])[1]")
+FIRST_NAME = (By.ID, "first_name")
+LAST_NAME = (By.ID, "last_name")
+EMAIL = (By.ID, "email")
+PASSWORD = (By.ID, "create_password")
+I_AM_NOT_ROBOT_CHCK_BX = (By.XPATH, "//div[@class='recaptcha-checkbox-checkmark']")
+CREATE_BTN = (By.XPATH, "//input[@class='btn']")
+SKIP_CAPCHA = (By.ID, "recaptcha-verify-button")
+SELECT_TEXT_HERE = (By.XPATH, "//div[@class='rc-imageselect-desc-no-canonical']")
 
 class MainPage(Page):
 
@@ -126,15 +135,15 @@ class MainPage(Page):
     def shopbybrand_numbers_oneshot(self, txt):
         wait = WebDriverWait(self.driver, 10)
         actions = ActionChains(self.driver)
-        # 2. Hover over Shop by Brand button
+        # Hover over Shop by Brand button
         actions.move_to_element(self.driver.find_element(*SHOP_BY_BRAND)).perform()
-        # 3. Hover over Numbers button
+        # Hover over Numbers button
         actions.move_to_element(self.driver.find_element(*NUMBERS)).perform()
-        # 4. Hover over One shot button
+        # Hover over One shot button
         actions.move_to_element(self.driver.find_element(*ONE_SHOT)).perform()
-        # 4. Click on One shot button
+        # Click on One shot button
         self.driver.find_element(*ONE_SHOT).click()
-        # 6. Verify searched word "1 SHOT" is here
+        # Verify searched word "1 SHOT" is here
         searhed_word = (txt).lower()
         actual_text = (self.driver.find_element(*ONESHOT_TEXT_HERE).text).lower()
         print(f'Actual text: "{actual_text}" VS Expected text: "{searhed_word}"')
@@ -145,6 +154,60 @@ class MainPage(Page):
             print(f'Actual text is here: "{actual_text}" ')
 
     # End of the above code
+
+    # 8 Verify searched word "1 SHOT" is here
+    def captcha_works(self, txt):
+        wait = WebDriverWait(self.driver, 10)
+        actions = ActionChains(self.driver)
+        # Click on Create an Account button
+        wait.until(EC.element_to_be_clickable(CREATE_AN_ACCOUNT)).click()
+        # Send First Name
+        wait.until(EC.presence_of_element_located(FIRST_NAME)).clear()
+        wait.until(EC.presence_of_element_located(FIRST_NAME)).send_keys('American')
+        # Send Last Name
+        wait.until(EC.presence_of_element_located(LAST_NAME)).clear()
+        wait.until(EC.presence_of_element_located(LAST_NAME)).send_keys('Psycho')
+        # Send Email
+        wait.until(EC.presence_of_element_located(EMAIL)).clear()
+        wait.until(EC.presence_of_element_located(EMAIL)).send_keys('psycho@psycho.org')
+        # Send Password
+        password = str(randint(1000000000, 9999999999))
+        wait.until(EC.presence_of_element_located(PASSWORD)).clear()
+        wait.until(EC.presence_of_element_located(PASSWORD)).send_keys(password)
+        # Click Create button
+        wait.until(EC.element_to_be_clickable(CREATE_BTN)).click()
+        # Mark checkbox "I am not a robot"
+        seq = self.driver.find_elements_by_tag_name('iframe')
+        print(f'Iframes: {seq}')
+        print(f'Iframes: {len(seq)}')
+        iframe = self.driver.find_elements_by_tag_name('iframe')[0]
+        self.driver.switch_to.frame(iframe)
+        target = wait.until(EC.element_to_be_clickable(I_AM_NOT_ROBOT_CHCK_BX))
+        actions = ActionChains(self.driver)
+        actions.move_to_element(target)
+        actions.click(on_element=target)
+        actions.perform()
+        self.driver.switch_to.default_content()
+        # Click Skip captcha button
+        seq = self.driver.find_elements_by_tag_name('iframe')
+        print(f'Iframes: {seq}')
+        print(f'Iframes: {len(seq)}')
+        iframe = self.driver.find_elements_by_tag_name('iframe')[3]
+        self.driver.switch_to.frame(iframe)
+        wait.until(EC.element_to_be_clickable(SKIP_CAPCHA)).click()
+        # 10. Verify "Select all images with" text is here
+        searhed_word = ('Select').lower()
+        actual_text = (self.driver.find_element(*SELECT_TEXT_HERE).text).lower()
+        print(f'Actual text: "{actual_text}" VS Expected text: "{searhed_word}" ')
+        assert searhed_word in actual_text
+        if searhed_word in actual_text:
+            print(f'Text is here: "{searhed_word}"')
+        else:
+            print(f'Actual text is here: "{actual_text}" ')
+
+
+    # End of the above code
+
 
 
 
