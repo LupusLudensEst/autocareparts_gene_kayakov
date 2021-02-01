@@ -17,6 +17,10 @@ EMAIL_IS_HERE = (By.XPATH, "//div[@class='rte']")
 SEARCH_FIELD = (By.NAME, "q")
 SEARCHED_IS_HERE = (By.XPATH, "//h1[@class='h2 text-center']")
 SEARCH_BTN = (By.XPATH, "(//span[@class='icon icon-search'])[1]")
+SHOP_BY_BRAND = (By.XPATH, "(//a[@class='site-nav--link'])[2]")
+NUMBERS = (By.XPATH, "(//a[@class='site-nav--link'])[3]")
+ONE_SHOT = (By.XPATH, "(//a[@class='site-nav--link'])[4]")
+ONESHOT_TEXT_HERE = (By.XPATH, "//h1[@class='section-header--title h1']")
 
 class MainPage(Page):
 
@@ -100,7 +104,7 @@ class MainPage(Page):
     def vrf_srchwrd_here(self,txt):
         wait = WebDriverWait(self.driver, 10)
         # Send search word to the search field
-        searhed_word = txt
+        searhed_word = txt.lower()
         e = self.driver.find_element(*SEARCH_FIELD)
         e.clear()
         e.send_keys(searhed_word)
@@ -109,12 +113,36 @@ class MainPage(Page):
         self.driver.find_element(*SEARCH_BTN).click()
         # Verify searched word is here
         actual_text = (self.driver.find_element(*SEARCHED_IS_HERE).text).lower()
-        print(actual_text)
+        print(f'Actual text: "{actual_text}" VS Expected text: "{searhed_word}" ')
         assert searhed_word in actual_text
         if searhed_word in actual_text:
-            print(f'Text is here: {searhed_word}')
+            print(f'Text is here: "{searhed_word}"')
         else:
-            print(f'Actual text is here: {actual_text} ')
+            print(f'Actual text is here: "{actual_text}" ')
+
+    # End of the above code
+
+    # 7 Verify searched word "1 SHOT" is here
+    def shopbybrand_numbers_oneshot(self, txt):
+        wait = WebDriverWait(self.driver, 10)
+        actions = ActionChains(self.driver)
+        # 2. Hover over Shop by Brand button
+        actions.move_to_element(self.driver.find_element(*SHOP_BY_BRAND)).perform()
+        # 3. Hover over Numbers button
+        actions.move_to_element(self.driver.find_element(*NUMBERS)).perform()
+        # 4. Hover over One shot button
+        actions.move_to_element(self.driver.find_element(*ONE_SHOT)).perform()
+        # 4. Click on One shot button
+        self.driver.find_element(*ONE_SHOT).click()
+        # 6. Verify searched word "1 SHOT" is here
+        searhed_word = (txt).lower()
+        actual_text = (self.driver.find_element(*ONESHOT_TEXT_HERE).text).lower()
+        print(f'Actual text: "{actual_text}" VS Expected text: "{searhed_word}"')
+        assert searhed_word in actual_text
+        if searhed_word in actual_text:
+            print(f'Text is here: "{searhed_word}" ')
+        else:
+            print(f'Actual text is here: "{actual_text}" ')
 
     # End of the above code
 
