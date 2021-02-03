@@ -227,15 +227,15 @@ class MainPage(Page):
     def contact_and_address_here(self, txt):
         wait = WebDriverWait(self.driver, 10)
         actions = ActionChains(self.driver)
-        # 2. Click on Carpro
+        # Click on Carpro
         wait.until(EC.element_to_be_clickable(CARPRO)).click()
-        # 3. Click on CarPro Cquartz Fabric #1117n, 500 ml
+        # Click on CarPro Cquartz Fabric #1117n, 500 ml
         wait.until(EC.element_to_be_clickable(CARPRO_CQUARZ_FABRIC)).click()
-        # 4. Click on Add to Cart
+        # Click on Add to Cart
         wait.until(EC.element_to_be_clickable(ADD_TO_CART)).click()
-        # 5. Click on CHECK_OUT
+        # Click on CHECK_OUT
         wait.until(EC.element_to_be_clickable(CHECK_OUT)).click()
-        # 6. Enter Email or mobile phone number
+        # Enter Email or mobile phone number
         password = str(randint(1000000000, 9999999999))
         name = 'name' + password
         last_name = ''.join(reversed(name))
@@ -243,34 +243,34 @@ class MainPage(Page):
         print(f'\nName: {name}, last name: {last_name}, password: {password} and email: {email}\n')
         wait.until(EC.presence_of_element_located(EMAIL_OR_MOBILE)).clear()
         wait.until(EC.presence_of_element_located(EMAIL_OR_MOBILE)).send_keys(email)
-        # 7. Enter FIRST_NAME
+        # Enter FIRST_NAME
         wait.until(EC.presence_of_element_located(FIRST_NAME_CHECKOUT)).clear()
         wait.until(EC.presence_of_element_located(FIRST_NAME_CHECKOUT)).send_keys(name)
-        # 8. Enter LAST_NAME
+        # Enter LAST_NAME
         wait.until(EC.presence_of_element_located(LAST_NAME_CHECKOUT)).clear()
         wait.until(EC.presence_of_element_located(LAST_NAME_CHECKOUT)).send_keys(last_name)
-        # 9. Enter ADDRESS
+        # Enter ADDRESS
         address = '2124 NE 182nd St North Miami Beach, Fl 33162'
         wait.until(EC.presence_of_element_located(ADDRESS)).clear()
         wait.until(EC.presence_of_element_located(ADDRESS)).send_keys(address)
-        # 10. Enter CITY
+        # Enter CITY
         wait.until(EC.presence_of_element_located(CITY)).clear()
         wait.until(EC.presence_of_element_located(CITY)).send_keys('North Miami Beach')
-        # 11. Enter COUNTRY
+        # Enter COUNTRY
         # wait.until(EC.presence_of_element_located(COUNTRY)).clear()
         wait.until(EC.presence_of_element_located(COUNTRY)).send_keys('United States')
-        # 12. Enter STATE
+        # Enter STATE
         wait.until(EC.element_to_be_clickable(STATE)).send_keys('Florida')
-        # 13. Enter ZIP
+        # Enter ZIP
         wait.until(EC.presence_of_element_located(ZIP)).clear()
         wait.until(EC.presence_of_element_located(ZIP)).send_keys('33162')
-        # 14. Click on Continue to shipping
+        # Click on Continue to shipping
         target = wait.until(EC.element_to_be_clickable(CONTINUE_TO_SHIPPING))
         actions = ActionChains(self.driver)
         actions.move_to_element(target)
         actions.click(on_element=target)
         actions.perform()
-        # 15. Verify Contact=email text is here
+        # Verify Contact=email text is here
         searhed_email = (email).lower()
         actual_email = (self.driver.find_element(*CONTACT_TEXT).text).lower()
         print(f'Email actual: "{actual_email}" VS email expected: "{searhed_email}"')
@@ -279,7 +279,7 @@ class MainPage(Page):
             print(f'Expected email is OK: "{searhed_email}"\n')
         else:
             print(f'Actual email: "{actual_email}"\n')
-        # 16. Verify Ship to=address text is here
+        # Verify Ship to=address text is here
         searhed_address = (address).lower()
         actual_address = (self.driver.find_element(*SHIP_TO_TEXT).text).lower()
         print(f'Actual address: "{actual_address}" VS expected address: "{searhed_address}"')
