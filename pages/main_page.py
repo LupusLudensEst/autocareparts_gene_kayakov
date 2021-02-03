@@ -220,7 +220,6 @@ class MainPage(Page):
         else:
             print(f'Actual text is here: "{actual_text}" ')
 
-
     # End of the above code
 
     # 8 Verify Contact=email(randomized) and Ship to=address '2124 NE 182nd St North Miami Beach, Fl 33162' are here
