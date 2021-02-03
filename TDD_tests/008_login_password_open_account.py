@@ -20,7 +20,6 @@ CREATE_BTN = (By.XPATH, "//input[@class='btn']")
 SKIP_CAPCHA = (By.ID, "recaptcha-verify-button")
 SELECT_TEXT_HERE = (By.XPATH, "//div[@class='rc-imageselect-desc-no-canonical']")
 
-
 # Explicit wait
 wait = WebDriverWait(driver, 15)
 
