@@ -18,7 +18,7 @@ driver.get( 'https://www.autocareparts.com/' )
 
 # 2. Verify text "© 2021 AutoCareParts.com Powered by Shopify" is here
 expected_text = '© 2021 AutoCareParts.com Powered by Shopify'
-actual_text = wait.until(EC.visibility_of_element_located((TEXT_IS_HERE))).text
+actual_text = wait.until(EC.visibility_of_element_located(TEXT_IS_HERE)).text
 print(f'Actual text: {actual_text}')
 assert expected_text in actual_text
 print(f'Expected "{expected_text}", and got: "{actual_text}" ')

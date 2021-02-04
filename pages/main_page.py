@@ -45,6 +45,8 @@ ZIP = (By.ID, "checkout_shipping_address_zip")
 CONTINUE_TO_SHIPPING = (By.ID, "continue_button")
 CONTACT_TEXT = (By.XPATH, "(//div[@class='review-block__content'])[1]")
 SHIP_TO_TEXT = (By.XPATH, "(//div[@class='review-block__content'])[2]")
+CART_BTN = (By.XPATH, "//a[@class='header-cart-btn cart-toggle']")
+CART_EMPTHY_TEXT = (By.XPATH, "//*[@id='ajaxifyCart']/h2")
 
 class MainPage(Page):
 
@@ -222,7 +224,7 @@ class MainPage(Page):
 
     # End of the above code
 
-    # 8 Verify Contact=email(randomized) and Ship to=address '2124 NE 182nd St North Miami Beach, Fl 33162' are here
+    # 9 Verify Contact=email(randomized) and Ship to=address '2124 NE 182nd St North Miami Beach, Fl 33162' are here
     def contact_and_address_here(self, txt):
         wait = WebDriverWait(self.driver, 10)
         actions = ActionChains(self.driver)
@@ -290,7 +292,28 @@ class MainPage(Page):
 
     # End of the above code
 
+    # 10 Click on the Cart button and verify text "YOUR CART IS CURRENTLY EMPTY." is here
+    def click_on_emthy_cart_btn(self, txt):
+        wait = WebDriverWait(self.driver, 10)
+        # 2. Click on Cart button
+        target = wait.until(EC.visibility_of_element_located(CART_BTN))
+        actions = ActionChains(self.driver)
+        actions.move_to_element(target)
+        sleep(2)
+        actions.click(on_element=target)
+        actions.perform()
+        # Verify text "YOUR CART IS CURRENTLY EMPTY." is here
+        text = 'YOUR CART IS CURRENTLY EMPTY.'
+        searhed_word = (text).lower()
+        actual_word = (wait.until(EC.presence_of_element_located(CART_EMPTHY_TEXT)).text).lower()
+        print(f'Word actual: "{actual_word}" VS word expected: "{searhed_word}"')
+        assert searhed_word in actual_word
+        if searhed_word in actual_word:
+            print(f'Expected word is OK: "{searhed_word}"\n')
+        else:
+            print(f'Actual word: "{actual_word}"\n')
 
+    # End of the above code
 
 
 
