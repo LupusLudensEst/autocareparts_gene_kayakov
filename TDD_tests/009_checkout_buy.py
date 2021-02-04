@@ -77,7 +77,7 @@ actions.click(on_element = target)
 actions.perform()
 # 15. Verify Contact=email text is here
 searhed_email = (email).lower()
-actual_email = (driver.find_element( *CONTACT_TEXT ).text).lower()
+actual_email = (wait.until(EC.presence_of_element_located(CONTACT_TEXT)).text).lower()
 print(f'Email actual: "{actual_email}" VS email expected: "{searhed_email}"')
 assert searhed_email in actual_email
 if searhed_email in actual_email:
