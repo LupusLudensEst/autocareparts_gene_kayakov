@@ -47,6 +47,8 @@ CONTACT_TEXT = (By.XPATH, "(//div[@class='review-block__content'])[1]")
 SHIP_TO_TEXT = (By.XPATH, "(//div[@class='review-block__content'])[2]")
 CART_BTN = (By.XPATH, "//a[@class='header-cart-btn cart-toggle']")
 CART_EMPTHY_TEXT = (By.XPATH, "//*[@id='ajaxifyCart']/h2")
+SHOP_BY_BRANDS = (By.XPATH, "(//a[@class='site-nav--link'])[2]")
+SHOP_BY_BRANDS_BY_MENU = (By.XPATH, "//span[@class='icon icon-arrow-down']")
 
 class MainPage(Page):
 
@@ -303,7 +305,7 @@ class MainPage(Page):
         actions.click(on_element=target)
         actions.perform()
         # Verify text "YOUR CART IS CURRENTLY EMPTY." is here
-        text = 'YOUR CART IS CURRENTLY EMPTY.'
+        text = txt
         searhed_word = (text).lower()
         actual_word = (wait.until(EC.presence_of_element_located(CART_EMPTHY_TEXT)).text).lower()
         print(f'Word actual: "{actual_word}" VS word expected: "{searhed_word}"')
@@ -315,8 +317,24 @@ class MainPage(Page):
 
     # End of the above code
 
+    # 11 Verify that Shop By Brand has 9 elements
+    def shop_by_brands(self, qntty):
+        wait = WebDriverWait(self.driver, 10)
+        # Hover over Shop By Brand
+        target = wait.until(EC.visibility_of_element_located(SHOP_BY_BRANDS))
+        actions = ActionChains(self.driver)
+        actions.move_to_element(target)
+        sleep(2)
+        actions.perform()
+        # Verify that Shop By Brand has 9 elements
+        expected_quantity = int(qntty)
+        quantity_elements = len(self.driver.find_elements(*SHOP_BY_BRANDS_BY_MENU))
+        if expected_quantity == quantity_elements:
+            print(f'Ok, we have: {quantity_elements} elements')
+        else:
+            print(f'Not ok, we have: {quantity_elements} elements')
 
-
+    # End of the above code
 
 
 

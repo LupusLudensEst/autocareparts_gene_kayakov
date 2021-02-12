@@ -11,7 +11,7 @@ driver.maximize_window()
 
 # Locators
 SHOP_BY_BRANDS = (By.XPATH, "(//a[@class='site-nav--link'])[2]")
-SHOP_BY_BRANDS_BY_MENU = (By.XPATH, "//span[@class='icon icon-arrow-down']") # (By.XPATH, "//li[@class='site-nav--has-dropdown site-nav--has-dropdown-grandchild']")
+SHOP_BY_BRANDS_BY_MENU = (By.XPATH, "//span[@class='icon icon-arrow-down']")
 
 # Explicit wait
 wait = WebDriverWait(driver, 15)
@@ -26,7 +26,7 @@ actions.move_to_element(target)
 sleep(2)
 actions.perform()
 
-# 3. Count how many elements has Shop By Brand 9
+# 3. Verify that Shop By Brand has 9 elements
 expected_quantity = 9
 quantity_elements = len(driver.find_elements(*SHOP_BY_BRANDS_BY_MENU))
 if expected_quantity == quantity_elements:
