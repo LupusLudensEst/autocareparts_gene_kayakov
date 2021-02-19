@@ -33,25 +33,25 @@ action.move_to_element(driver.find_element(*SHOP_BY_BRAND)).perform()
 action.move_to_element(driver.find_element(*NUMBERS)).perform()
 # 4. Hover over One shot button
 action.move_to_element(driver.find_element(*ONE_SHOT)).perform()
-# 4. Click on One shot button
+# 5. Click on One shot button
 driver.find_element(*ONE_SHOT).click()
-# 5. Click on One shot picture
+# 6. Click on One shot picture
 target = wait.until(EC.element_to_be_clickable(ONE_SHOT_PIC))
 actions = ActionChains(driver)
 actions.move_to_element(target)
 sleep(2)
 actions.click(on_element = target)
 actions.perform()
-# 6. Click on Add to Cart button
+# 7. Click on Add to Cart button
 driver.find_element(*ADD_TO_CART).click()
-# 7. Click and close shopping cart
+# 8. Click and close shopping cart
 target = wait.until(EC.element_to_be_clickable(CLOSE_SHOPPING_CART))
 actions = ActionChains(driver)
 actions.move_to_element(target)
 sleep(2)
 actions.click(on_element = target)
 actions.perform()
-# 8. Verify "1" is in the cart
+# 9. Verify "1" is in the cart
 text = '1'
 searhed_word = (text).lower()
 actual_word = (wait.until(EC.presence_of_element_located(QUANTITY_IN_CART)).text).lower()

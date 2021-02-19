@@ -57,6 +57,15 @@ ONE_SHOT_PIC = (By.XPATH, "//div[@class='product-grid-image']")
 ADD_TO_CART = (By.XPATH, "//span[@id='addToCartText-product-template']")
 CLOSE_SHOPPING_CART = (By.XPATH, "//button[@title='Close Cart']")
 QUANTITY_IN_CART = (By.XPATH, "//span[@class='cart-count cart-badge--desktop']")
+CLICK_ON_CREATE_ACCOUNT = (By.XPATH, "(//a[@id='customer_register_link'])[1]")
+FIRST_NAME_REG = (By.ID, "first_name")
+LAST_NAME_REG = (By.ID, "last_name")
+EMAIL_REG = (By.ID, "email")
+PASSWORD_REG = (By.ID, "create_password")
+CREATE_BUTTON = (By.XPATH, "//input[@value='Create']")
+I_AM_NOT_ROBOT = (By.CSS_SELECTOR, "div.recaptcha-checkbox-border")
+SUBMIT_BTN = (By.XPATH, "//input[@value='Submit']")
+TEXT_AFTER_SUBMIT_BTN = (By.XPATH, "//ul[@class='shopify-challenge__error']")
 
 class MainPage(Page):
 
@@ -347,25 +356,25 @@ class MainPage(Page):
     # 12 Verify that cart has 1 item
     def cart_has_ine_item(self, qntty):
         wait = WebDriverWait(self.driver, 10)
-        # 2. Hover over Shop by Brand button
+        # Hover over Shop by Brand button
         actions = ActionChains(self.driver)
         actions.move_to_element(self.driver.find_element(*SHOP_BY_BRAND)).perform()
-        # 3. Hover over Numbers button
+        # Hover over Numbers button
         actions.move_to_element(self.driver.find_element(*NUMBERS)).perform()
-        # 4. Hover over One shot button
+        # Hover over One shot button
         actions.move_to_element(self.driver.find_element(*ONE_SHOT)).perform()
-        # 4. Click on One shot button
+        # Click on One shot button
         self.driver.find_element(*ONE_SHOT).click()
-        # 5. Click on One shot picture
+        # Click on One shot picture
         target = wait.until(EC.element_to_be_clickable(ONE_SHOT_PIC))
         actions = ActionChains(self.driver)
         actions.move_to_element(target)
         sleep(2)
         actions.click(on_element=target)
         actions.perform()
-        # 6. Click on Add to Cart button
+        # Click on Add to Cart button
         self.driver.find_element(*ADD_TO_CART).click()
-        # 7. Click and close shopping cart
+        # Click and close shopping cart
         target = wait.until(EC.element_to_be_clickable(CLOSE_SHOPPING_CART))
         actions = ActionChains(self.driver)
         actions.move_to_element(target)
@@ -383,10 +392,45 @@ class MainPage(Page):
             print(f'Actual quantity: "{actual_word}"\n')
         assert searhed_word in actual_word
 
-
-
     # End of the above code
 
+    # 13 Verify after registration and click on Submit text here Your answer wasn't correct, please try again
+    def rgstrtn_sbmt_txt_hr(self, txt):
+        wait = WebDriverWait(self.driver, 10)
+        # Click on Create an Account button
+        wait.until(EC.element_to_be_clickable(CLICK_ON_CREATE_ACCOUNT)).click()
+        # Fill First Name field
+        password = str(randint(1000000000, 9999999999))
+        name = 'name' + "_" + password
+        last_name = name + "_" + password
+        email = (name + '@sample.com')
+        print(f'\nName: {name}, password: {password} and email: {email}')
+        wait.until(EC.presence_of_element_located(FIRST_NAME_REG)).clear()
+        wait.until(EC.presence_of_element_located(FIRST_NAME_REG)).send_keys(name)
+        # Fill Last Name field
+        wait.until(EC.presence_of_element_located(LAST_NAME_REG)).clear()
+        wait.until(EC.presence_of_element_located(LAST_NAME_REG)).send_keys(last_name)
+        # Fill Email field
+        wait.until(EC.presence_of_element_located(EMAIL_REG)).clear()
+        wait.until(EC.presence_of_element_located(EMAIL_REG)).send_keys(email)
+        # Fill Password field
+        wait.until(EC.presence_of_element_located(PASSWORD_REG)).clear()
+        wait.until(EC.presence_of_element_located(PASSWORD_REG)).send_keys(password)
+        # Click on Create button
+        wait.until(EC.element_to_be_clickable(CREATE_BUTTON)).click()
+        # Click on Submit button
+        wait.until(EC.element_to_be_clickable(SUBMIT_BTN)).click()
+        text = "Your answer wasn't correct, please try again."
+        searhed_word = (text).lower()
+        actual_word = wait.until(EC.visibility_of_element_located(TEXT_AFTER_SUBMIT_BTN)).text.lower()
+        print(f'Text actual: "{actual_word}" VS text expected: "{searhed_word}"')
+        if searhed_word in actual_word:
+            print(f'Text is OK: "{searhed_word}"\n')
+        else:
+            print(f'Text actual: "{actual_word}"\n')
+        assert searhed_word in actual_word
+
+    # End of the above code
 
 
 
