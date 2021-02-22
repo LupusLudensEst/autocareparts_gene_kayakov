@@ -37,7 +37,7 @@ password = str(randint(1000000000, 9999999999))
 name = 'name' + "_" + password
 last_name = name + "_" + password
 email = (name + '@sample.com')
-print(f'\nName: {name}, password: {password} and email: {email}')
+print(f'\nName: {name}, \nlast name: {last_name},\nemail: {email} \nand password: {password}')
 
 wait.until(EC.presence_of_element_located(FIRST_NAME_REG)).clear()
 wait.until(EC.presence_of_element_located(FIRST_NAME_REG)).send_keys(name)
@@ -57,7 +57,7 @@ wait.until(EC.presence_of_element_located(PASSWORD_REG)).send_keys(password)
 # 7. Click on Create button
 wait.until(EC.element_to_be_clickable(CREATE_BUTTON)).click()
 
-# 8. Click on Submit button
+# 8. Click on Submit button and verify text is here
 wait.until(EC.element_to_be_clickable(SUBMIT_BTN)).click()
 text = "Your answer wasn't correct, please try again."
 searhed_word = (text).lower()

@@ -66,6 +66,16 @@ CREATE_BUTTON = (By.XPATH, "//input[@value='Create']")
 I_AM_NOT_ROBOT = (By.CSS_SELECTOR, "div.recaptcha-checkbox-border")
 SUBMIT_BTN = (By.XPATH, "//input[@value='Submit']")
 TEXT_AFTER_SUBMIT_BTN = (By.XPATH, "//ul[@class='shopify-challenge__error']")
+VISA_TEXT_HERE = (By.ID, "pi-visa")
+AMEX_TEXT_HERE = (By.ID, "pi-american_express")
+APPLE_PAY_TEXT_HERE = (By.ID, "pi-apple_pay")
+DINERS_CLUB_TEXT_HERE = (By.ID, "pi-diners_club")
+DISCOVER_TEXT_HERE = (By.ID, "pi-discover")
+ELO_TEXT_HERE = (By.ID, "pi-elo")
+GOOGLE_PAY_TEXT_HERE = (By.ID, "pi-google_pay")
+JCB_TEXT_HERE = (By.ID, "pi-jcb")
+MASTER_CARD_TEXT_HERE = (By.ID, "pi-master")
+SHOPIFY_PAY_TEXT_HERE = (By.ID, "pi-shopify_pay")
 
 class MainPage(Page):
 
@@ -191,7 +201,7 @@ class MainPage(Page):
 
     # End of the above code
 
-    # 8 Verify searched word "1 SHOT" is here
+    # 8 Verify captcha works and "Select" text is here
     def captcha_works(self, txt):
         wait = WebDriverWait(self.driver, 10)
         actions = ActionChains(self.driver)
@@ -231,8 +241,8 @@ class MainPage(Page):
         iframe = self.driver.find_elements_by_tag_name('iframe')[3]
         self.driver.switch_to.frame(iframe)
         wait.until(EC.element_to_be_clickable(SKIP_CAPCHA)).click()
-        # 10. Verify "Select all images with" text is here
-        searhed_word = ('Select').lower()
+        # 10. Verify "Select" text is here
+        searhed_word = txt.lower()
         actual_text = (self.driver.find_element(*SELECT_TEXT_HERE).text).lower()
         print(f'Actual text: "{actual_text}" VS Expected text: "{searhed_word}" ')
         assert searhed_word in actual_text
@@ -270,14 +280,12 @@ class MainPage(Page):
         wait.until(EC.presence_of_element_located(LAST_NAME_CHECKOUT)).clear()
         wait.until(EC.presence_of_element_located(LAST_NAME_CHECKOUT)).send_keys(last_name)
         # Enter ADDRESS
-        address = '2124 NE 182nd St North Miami Beach, Fl 33162'
         wait.until(EC.presence_of_element_located(ADDRESS)).clear()
-        wait.until(EC.presence_of_element_located(ADDRESS)).send_keys(address)
+        wait.until(EC.presence_of_element_located(ADDRESS)).send_keys(txt)
         # Enter CITY
         wait.until(EC.presence_of_element_located(CITY)).clear()
         wait.until(EC.presence_of_element_located(CITY)).send_keys('North Miami Beach')
         # Enter COUNTRY
-        # wait.until(EC.presence_of_element_located(COUNTRY)).clear()
         wait.until(EC.presence_of_element_located(COUNTRY)).send_keys('United States')
         # Enter STATE
         wait.until(EC.element_to_be_clickable(STATE)).send_keys('Florida')
@@ -291,8 +299,8 @@ class MainPage(Page):
         actions.click(on_element=target)
         actions.perform()
         # Verify Contact=email text is here
-        searhed_email = (email).lower()
-        actual_email = (wait.until(EC.presence_of_element_located(CONTACT_TEXT)).text).lower()
+        searhed_email = email.lower()
+        actual_email = wait.until(EC.presence_of_element_located(CONTACT_TEXT)).text.lower()
         print(f'Email actual: "{actual_email}" VS email expected: "{searhed_email}"')
         assert searhed_email in actual_email
         if searhed_email in actual_email:
@@ -300,7 +308,7 @@ class MainPage(Page):
         else:
             print(f'Actual email: "{actual_email}"\n')
         # Verify Ship to=address text is here
-        searhed_address = (address).lower()
+        searhed_address = (txt).lower()
         actual_address = (self.driver.find_element(*SHIP_TO_TEXT).text).lower()
         print(f'Actual address: "{actual_address}" VS expected address: "{searhed_address}"')
         assert searhed_address in actual_address
@@ -418,7 +426,7 @@ class MainPage(Page):
         wait.until(EC.presence_of_element_located(PASSWORD_REG)).send_keys(password)
         # Click on Create button
         wait.until(EC.element_to_be_clickable(CREATE_BUTTON)).click()
-        # Click on Submit button
+        # Click on Submit button and verify text is here
         wait.until(EC.element_to_be_clickable(SUBMIT_BTN)).click()
         text = "Your answer wasn't correct, please try again."
         searhed_word = (text).lower()
@@ -432,5 +440,13 @@ class MainPage(Page):
 
     # End of the above code
 
+    # 14 Verify texts of Payment System is here
+    def verify_text_here(self, txt):
+        def verify_text(expected_text, locator):
+            actual_text = self.driver.find_element(*locator).text
+            assert expected_text in actual_text, f'Expected text {expected_text}, but got {actual_text}'
+            print(f'Expected text: {expected_text} VS actual text: {actual_text}')
+
+    # End of the above code
 
 
