@@ -47,14 +47,10 @@ CONTACT_TEXT = (By.XPATH, "(//div[@class='review-block__content'])[1]")
 SHIP_TO_TEXT = (By.XPATH, "(//div[@class='review-block__content'])[2]")
 CART_BTN = (By.XPATH, "//a[@class='header-cart-btn cart-toggle']")
 CART_EMPTHY_TEXT = (By.XPATH, "//*[@id='ajaxifyCart']/h2")
-SHOP_BY_BRANDS = (By.XPATH, "(//a[@class='site-nav--link'])[2]")
-SHOP_BY_BRANDS_BY_MENU = (By.XPATH, "//span[@class='icon icon-arrow-down']")
 SHOP_BY_BRAND = (By.XPATH, "(//a[@class='site-nav--link'])[2]")
-NUMBERS = (By.XPATH, "(//a[@class='site-nav--link'])[3]")
+SHOP_BY_BRANDS_BY_MENU = (By.XPATH, "//span[@class='icon icon-arrow-down']")
 ONE_SHOT = (By.XPATH, "(//a[@class='site-nav--link'])[4]")
-ONESHOT_TEXT_HERE = (By.XPATH, "//h1[@class='section-header--title h1']")
 ONE_SHOT_PIC = (By.XPATH, "//div[@class='product-grid-image']")
-ADD_TO_CART = (By.XPATH, "//span[@id='addToCartText-product-template']")
 CLOSE_SHOPPING_CART = (By.XPATH, "//button[@title='Close Cart']")
 QUANTITY_IN_CART = (By.XPATH, "//span[@class='cart-count cart-badge--desktop']")
 CLICK_ON_CREATE_ACCOUNT = (By.XPATH, "(//a[@id='customer_register_link'])[1]")
@@ -267,7 +263,7 @@ class MainPage(Page):
         wait.until(EC.element_to_be_clickable(CHECK_OUT)).click()
         # Enter Email or mobile phone number
         password = str(randint(1000000000, 9999999999))
-        name = 'name' + password
+        name = 'name' + '_' + password
         last_name = ''.join(reversed(name))
         email = (name + '@sample.com')
         print(f'\nName: {name}, last name: {last_name}, password: {password} and email: {email}\n')
@@ -346,7 +342,7 @@ class MainPage(Page):
     def shop_by_brands(self, qntty):
         wait = WebDriverWait(self.driver, 10)
         # Hover over Shop By Brand
-        target = wait.until(EC.visibility_of_element_located(SHOP_BY_BRANDS))
+        target = wait.until(EC.visibility_of_element_located(SHOP_BY_BRAND))
         actions = ActionChains(self.driver)
         actions.move_to_element(target)
         sleep(2)

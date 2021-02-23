@@ -42,7 +42,7 @@ wait.until(EC.element_to_be_clickable(ADD_TO_CART)).click()
 wait.until(EC.element_to_be_clickable(CHECK_OUT)).click()
 # 6. Enter Email or mobile phone number
 password = str(randint(1000000000, 9999999999))
-name = 'name' + password
+name = 'name' + '_' + password
 last_name = ''.join(reversed(name))
 email = (name + '@sample.com')
 print(f'\nName: {name}, last name: {last_name}, password: {password} and email: {email}\n')
