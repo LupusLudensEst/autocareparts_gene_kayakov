@@ -327,8 +327,8 @@ class MainPage(Page):
         actions.perform()
         # Verify text "YOUR CART IS CURRENTLY EMPTY." is here
         text = txt
-        searhed_word = (text).lower()
-        actual_word = (wait.until(EC.presence_of_element_located(CART_EMPTHY_TEXT)).text).lower()
+        searhed_word = text.lower()
+        actual_word = wait.until(EC.presence_of_element_located(CART_EMPTHY_TEXT)).text.lower()
         print(f'Word actual: "{actual_word}" VS word expected: "{searhed_word}"')
         assert searhed_word in actual_word
         if searhed_word in actual_word:
