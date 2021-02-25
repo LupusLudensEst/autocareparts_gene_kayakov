@@ -62,3 +62,9 @@ http://192.168.56.1:53498/index.html
 ##########
 Renew git to tje latest version
 git update-git-for-windows
+
+##########
+Ignore some file/s when commiting/pushing
+npm install touch-cli -g
+touch .gitignore
+Write in the body of the .gitignore names of the files you want to exclude from committing and pushing to GitHub
