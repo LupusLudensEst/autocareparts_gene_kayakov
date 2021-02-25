@@ -58,3 +58,7 @@ http://192.168.56.1:53498/index.html
 1. Just provoke Jenkins;
 2. Create requirements.txt: pip freeze > requirements.txt
 3. Define path to modul: which python3
+
+##########
+Renew git to tje latest version
+git update-git-for-windows
