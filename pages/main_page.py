@@ -78,7 +78,7 @@ class MainPage(Page):
     # 1 Verify text "© 2021 AutoCareParts.com Powered by Shopify" is here
     def vrfy_txt_here(self, txt):
         wait = WebDriverWait(self.driver, 10)
-        expected_text = '© 2021 AutoCareParts.com Powered by Shopify'
+        expected_text = txt
         sleep(1.5)
         actual_text = wait.until(EC.presence_of_element_located((TEXT_IS_HERE))).text
         print(f'Actual text: {actual_text}')
