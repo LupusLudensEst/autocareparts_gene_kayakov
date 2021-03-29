@@ -239,6 +239,7 @@ class MainPage(Page):
         wait.until(EC.element_to_be_clickable(SKIP_CAPCHA)).click()
         # 10. Verify "Select" text is here
         searhed_word = txt.lower()
+        sleep(2)
         actual_text = (self.driver.find_element(*SELECT_TEXT_HERE).text).lower()
         print(f'Actual text: "{actual_text}" VS Expected text: "{searhed_word}" ')
         assert searhed_word in actual_text
