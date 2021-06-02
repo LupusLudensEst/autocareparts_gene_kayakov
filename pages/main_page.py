@@ -21,7 +21,7 @@ SHOP_BY_BRAND = (By.XPATH, "(//a[@class='site-nav--link'])[2]")
 NUMBERS = (By.XPATH, "(//a[@class='site-nav--link'])[3]")
 ONE_SHOT = (By.XPATH, "(//a[@class='site-nav--link'])[4]")
 ONESHOT_TEXT_HERE = (By.XPATH, "//h1[@class='section-header--title h1']")
-CREATE_AN_ACCOUNT = (By.XPATH, "(//a[@id='customer_register_link'])[1]")
+CREATE_AN_ACCOUNT = (By.XPATH, "(//a[@id='cuvrfy_txt_herestomer_register_link'])[1]")
 FIRST_NAME = (By.ID, "first_name")
 LAST_NAME = (By.ID, "last_name")
 EMAIL = (By.ID, "email")
@@ -93,7 +93,7 @@ class MainPage(Page):
         if wait.until(EC.visibility_of_element_located((LOGO_IS_HERE))):
             print("Image is displayed")
         else:
-            print("image is not displayed")
+            print("Image is not displayed")
 
     # End of the above code
 
