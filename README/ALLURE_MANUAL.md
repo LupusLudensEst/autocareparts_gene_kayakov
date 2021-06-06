@@ -81,3 +81,7 @@ python 001_main_page_text_here.py;002_main_page_logo_here.py;003_main_page_phone
 pip freeze > requirements.txt
 # Update requirements.txt
 pip install -r requirements.txt --upgrade
+
+##########
+# retrieve the version of Selenium currently installed, from Python
+python -c "import selenium; print(selenium.__version__)"
