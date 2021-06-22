@@ -56,6 +56,7 @@ ONE_SHOT_PIC = (By.XPATH, "//div[@class='product-grid-image']")
 CLOSE_SHOPPING_CART = (By.XPATH, "//button[@title='Close Cart']")
 QUANTITY_IN_CART = (By.XPATH, "//span[@class='cart-count cart-badge--desktop']")
 CLICK_ON_CREATE_ACCOUNT = (By.XPATH, "(//a[@id='customer_register_link'])[1]")
+CREATE_AN_ACCOUNT = (By.XPATH, "(//a[@id='customer_register_link'])[1]")
 FIRST_NAME_REG = (By.ID, "first_name")
 LAST_NAME_REG = (By.ID, "last_name")
 EMAIL_REG = (By.ID, "email")
@@ -208,8 +209,7 @@ class MainPage(Page):
 
     # 8 Verify captcha works and "Select" text is here
     def captcha_works(self, txt):
-        wait = WebDriverWait(self.driver, 10)
-        actions = ActionChains(self.driver)
+        wait = WebDriverWait(self.driver, 15)
         # Click on Create an Account button
         wait.until(EC.element_to_be_clickable(CREATE_AN_ACCOUNT)).click()
         # Send First Name
@@ -457,14 +457,14 @@ class MainPage(Page):
 
     # 15 Vulnerability test
     # Login https://spyse.com/
-    def lgn_spyse(self):
-        self.driver.get('https://spyse.com/')
+    def lgn_spyse(self, spyse):
+        self.driver.get(spyse)
 
     # Input https://www.autocareparts.com/ to search field
-    def inpt_our_url(self, our_url):
+    def inpt_our_url(self, url):
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.presence_of_element_located(URL_FLD)).clear()
-        wait.until(EC.presence_of_element_located(URL_FLD)).send_keys(our_url)
+        wait.until(EC.presence_of_element_located(URL_FLD)).send_keys(url)
 
     # Click on Search button
     def clck_srch_btn(self):
