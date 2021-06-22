@@ -1,4 +1,3 @@
-from selenium.webdriver.support.select import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from pages.base_page import Page
@@ -6,6 +5,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 from random import randint
 from time import sleep
 from selenium.webdriver.common.action_chains import ActionChains
+from Screenshot import Screenshot_Clipping
+import time
+
 
 # Locators
 TEXT_IS_HERE = (By.XPATH, "//div[@class='grid-item large--two-fifths']")
@@ -72,6 +74,13 @@ GOOGLE_PAY_TEXT_HERE = (By.ID, "pi-google_pay")
 JCB_TEXT_HERE = (By.ID, "pi-jcb")
 MASTER_CARD_TEXT_HERE = (By.ID, "pi-master")
 SHOPIFY_PAY_TEXT_HERE = (By.ID, "pi-shopify_pay")
+URL_FLD = (By.XPATH, "//input[@inputmode='search']")
+SRCH_BTN = (By.XPATH, "//button[@class='button search__btn button--color-blue button--v-default button--size-lg']")
+SCRT_SCR = (By.XPATH, "(//span[@class='security-level__score'])[2]")
+CRTCL_RSK = (By.XPATH, "(//div[@class='severity__count'])[1]")
+MDM_RSK = (By.XPATH, "(//div[@class='severity__count'])[2]")
+ELVT_RSK = (By.XPATH, "(//div[@class='severity__count'])[3]")
+ISSR_DN = (By.XPATH, "//pre[@class='pre-text']")
 
 class MainPage(Page):
 
@@ -443,6 +452,47 @@ class MainPage(Page):
             actual_text = self.driver.find_element(*locator).text
             assert expected_text in actual_text, f'Expected text {expected_text}, but got {actual_text}'
             print(f'Expected text: {expected_text} VS actual text: {actual_text}')
+
+    # End of the above code
+
+    # 15 Vulnerability test
+    # Login https://spyse.com/
+    def lgn_spyse(self):
+        self.driver.get('https://spyse.com/')
+
+    # Input https://www.autocareparts.com/ to search field
+    def inpt_our_url(self, our_url):
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.presence_of_element_located(URL_FLD)).clear()
+        wait.until(EC.presence_of_element_located(URL_FLD)).send_keys(our_url)
+
+    # Click on Search button
+    def clck_srch_btn(self):
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.element_to_be_clickable(SRCH_BTN)).click()
+
+    # Find security score, critical risk, medium risk, elevated risk, issuer DN
+    def fnd_all_data(self):
+        wait = WebDriverWait(self.driver, 10)
+        security_score = wait.until(EC.visibility_of_element_located(SCRT_SCR)).text.lower()
+        critical_risk = wait.until(EC.visibility_of_element_located(CRTCL_RSK)).text.lower()
+        medium_risk = wait.until(EC.visibility_of_element_located(MDM_RSK)).text.lower()
+        elevated_risk = wait.until(EC.visibility_of_element_located(ELVT_RSK)).text.lower()
+        issuer_dn = wait.until(EC.visibility_of_element_located(ISSR_DN)).text.lower()
+        print(f'Security score: "{security_score}";\nCritical risk: "{critical_risk}";\nMedium risk: "{medium_risk}"\n'
+              f'Elevated risk: "{elevated_risk}";\nIssuer DN: "{issuer_dn}"')
+
+    # Make a screenshot of the whole page
+    def mk_scrnsht(self):
+        ob = Screenshot_Clipping.Screenshot()
+        url = self.driver.current_url
+        today = time.strftime(f'%Y_%m_%d')
+        now = time.strftime(f'%H_%M_%S')
+        file_name = 'vulnerability_' + today + '_' + now + '.jpg'
+        img_url = ob.full_Screenshot(self.driver,
+                                     save_path=r'C:\Everything\IT\Testing\Automation_08_09_2019\autocareparts_gene_kayakov\screen_shots',
+                                     image_name=file_name)
+        print(img_url)
 
     # End of the above code
 
