@@ -228,6 +228,7 @@ class MainPage(Page):
         # Click Create button
         wait.until(EC.element_to_be_clickable(CREATE_BTN)).click()
         # Mark checkbox "I am not a robot"
+        sleep(4)
         seq = self.driver.find_elements_by_tag_name('iframe')
         print(f'Iframes: {seq}')
         print(f'Iframes: {len(seq)}')

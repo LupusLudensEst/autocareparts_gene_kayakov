@@ -45,6 +45,7 @@ wait.until(EC.presence_of_element_located(PASSWORD)).send_keys(password)
 # 7. Click Create button
 wait.until(EC.element_to_be_clickable(CREATE_BTN)).click()
 # 8. Mark checkbox "I am not a robot"
+sleep(4)
 seq = driver.find_elements_by_tag_name('iframe')
 print(f'Iframes: {seq}')
 print(f'Iframes: {len(seq)}')
