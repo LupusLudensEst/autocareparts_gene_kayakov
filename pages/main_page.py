@@ -157,6 +157,7 @@ class MainPage(Page):
         actual_text = wait.until(EC.visibility_of_element_located((EMAIL_IS_HERE))).text
         print(f'Actual phone: {actual_text}')
         assert expected_text in actual_text
+        assert expected_text in actual_text
         print(f'Expected "{expected_text}", and got: "{actual_text}" ')
 
     # End of the above code

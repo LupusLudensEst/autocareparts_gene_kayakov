@@ -9,7 +9,6 @@ driver.maximize_window()
 
 # Locators
 TEXT_IS_HERE = (By.XPATH, "//div[@class='grid-item large--two-fifths']")
-NAME = (By.NAME,'google')
 
 # Explicit wait
 wait = WebDriverWait(driver, 15)
